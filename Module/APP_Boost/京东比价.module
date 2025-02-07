@@ -1,0 +1,10 @@
+#!name=京东比价
+#!desc=京东比价 点详情页 显示
+
+[Script]
+jd_price = type=http-response, pattern=^https?:\/\/api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig), script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body=true, max-size=-1, timeout=60
+
+jd_price = type=http-response, pattern=^https?:\/\/in\.m\.jd\.com\/product\/graphext\/\d+\.html, script-path=https://raw.githubusercontent.com/wf021325/qx/master/js/jd_price.js, requires-body=true, max-size=-1, timeout=60
+
+[MITM]
+hostname = %APPEND% api.m.jd.com, in.m.jd.com

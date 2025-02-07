@@ -1,0 +1,12 @@
+#!url=http://script.hub/file/_start_/https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Module/TieBaDailyBonus.sgmodule/_end_/TieBaDailyBonus.sgmodule?type=surge-module&target=shadowrocket-module&del=true
+#!name=🐻 百度贴吧 [签到]
+#!desc=每日定时签到，模块参数可调整签到时间。\n打开百度贴吧APP点击"我的"即可获取cookie.
+#!category=🐻 NobyDa
+#!arguments=定时签到:40 8 * * *,禁用脚本:百度贴吧[Cookie],禁用MITM:hostname
+#!arguments-desc=定时签到：Cron表达式，默认每天早上 08:40 执行。\n\n禁用脚本：禁用获取Cookie脚本，输入 # 表示禁用。\n\n禁用MITM：禁用MITM主机名，输入 # 表示禁用。
+
+[Script]
+百度贴吧[签到] = type=cron, cronexp="40 8 * * *", script-path=https://raw.githubusercontent.com/NobyDa/Script/master/BDTieBa-DailyBonus/TieBa.js, script-update-interval=0, timeout=600, wake-system=1
+
+百度贴吧[Cookie] = type=http-request, pattern=^https?:\/\/(c\.tieba|tiebac)\.baidu\.com\/c\/s\/login, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/BDTieBa-DailyBonus/TieBa.js
+

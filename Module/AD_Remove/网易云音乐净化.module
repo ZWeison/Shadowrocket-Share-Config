@@ -1,0 +1,63 @@
+#!name=网易云音乐
+#!desc=网易云音乐全面净化
+#!author=RuCu6[https://github.com/RuCu6], Keywos[https://github.com/Keywos], qiuxiuya[https://github.com/qiuxiuya], anyehttp[https://github.com/anyehttp], 可莉🅥[https://github.com/luestr/ProxyResource/blob/main/README.md]
+#!icon=https://raw.githubusercontent.com/sooyaaabo/Loon/main/Icon/App-Icon/NeteaseMusic.png
+#!openUrl=https://apps.apple.com/app/id590338362
+#!tag=去广告, 解锁会员
+#!homepage=https://github.com/sooyaaabo/Egern
+#!date=2025-01-09 18:00
+#!update:
+#!去除无用会员解锁相关，避免出现界面加载失败情况 by weison 25/02/03
+[Rule]
+DOMAIN,httpdns.n.netease.com,REJECT
+DOMAIN,iadmat.nosdn.127.net,REJECT
+DOMAIN,iadmatapk.nosdn.127.net,REJECT
+DOMAIN,iadmusicmat.music.126.net,REJECT
+DOMAIN,iadmusicmatvideo.music.126.net,REJECT
+DOMAIN,ipv4.music.163.com,REJECT
+DOMAIN,ipv6.music.163.com,REJECT
+
+[Header Rewrite]
+http-request ^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/e?api\/(?:batch|v\d\/resource\/comment\/floor\/get|homepage\/block\/page|link\/page\/rcmd\/(block\/resource\/multi\/refresh|resource\/show)|user\/follow\/users\/mixed\/get|link\/home\/framework\/tab|link\/position\/show\/resource|link\/page\/discovery\/resource\/show) header-del x-aeapi
+
+[URL Rewrite]
+# 开屏广告
+^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/e?api\/(ocpc\/)?ad\/ - reject-dict
+# 今日运势 商城 Beat专区 音乐收藏家 | type:ACTIVITY | 低至5.2折
+^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:delivery\/(batch-)?deliver|moment\/tab\/info\/|side-bar\/mini-program\/music-service\/account|yunbei\/account\/entrance\/) - reject-dict
+# 播放页 歌名下方 乐迷团｜关注｜播放页提示｜音乐应用红点｜播放提示
+^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:community\/friends\/fans-group\/artist\/group\/|mine\/applet\/redpoint|music\/songshare\/text\/recommend\/|resniche\/position\/play\/new\/|resource\/comments?\/musiciansaid\/|user\/sub\/artist) - reject-dict
+^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:ios\/version|mlivestream\/entrance\/playpage\/|link\/position\/show\/strategy|link\/scene\/show\/resource|v1\/content\/exposure\/comment\/banner\/) - reject-dict
+# 搜索页 搜索词 热搜卡片 猜你喜欢 我的应用下方提醒
+^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/w?eapi\/(?:activity\/bonus\/playpage\/time\/query|resource-exposure\/|search\/(?:chart\/|default\/|rcmd\/keyword\/|specialkeyword\/)) - reject-dict
+# 主页播客推荐
+^https:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/my\/podcast\/tab\/recommend - reject-dict
+
+[Script]
+# 播放会员歌曲
+播放会员歌曲 = type=http-request, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:v1\/artist\/top\/song|v3\/discovery\/recommend\/songs), script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/headers/wyy.js, timeout=20
+
+播放会员歌曲 = type=http-request, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/v3\/song\/detail, script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/headers/wyy.js, timeout=20
+
+播放会员歌曲 = type=http-request, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/song\/(?:chorus|enhance\/|play\/|type\/detail\/get), script-path=https://raw.githubusercontent.com/anyehttp/quantumult-x/main/headers/wyy.js, timeout=20
+
+# 热推、有话想说、分享一下、歌曲下的祝福等小提示、评论区、乐迷、星评等级、关注等图标
+评论区 = type=http-response, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:batch|v2\/resource\/comment\/floor\/get), script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, timeout=20
+
+# 推荐、home、主页
+主页 = type=http-response, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/(?:homepage\/block\/page|link\/page\/rcmd\/(?:block\/resource\/multi\/refresh|resource\/show)), script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, timeout=20, argument="[{PRGG},{PRRK},{PRDRD},{PRSCVPT},{PRST},{PRRR},{HMPR},{PRMST},{PRCN}]"
+
+# 底部Tab
+底部Tab = type=http-response, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/home\/framework\/tab, script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, timeout=20, argument="[{MY},{DT},{FX}]"
+
+# 发现页
+发现页 = type=http-response, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/page\/discovery\/resource\/show, script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, timeout=20
+
+# 我的页面
+我的页面 = type=http-response, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/link\/position\/show\/resource, script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, timeout=20
+
+# 显示未关注你的人
+显示未关注你的人 = type=http-response, pattern=^https?:\/\/(?:ipv4|interface\d?)\.music\.163\.com\/eapi\/user\/follow\/users\/mixed\/get, script-path=https://raw.githubusercontent.com/Keywos/rule/main/script/wy/js/wyres.js, requires-body=true, binary-body-mode=true, timeout=20
+
+[MITM]
+hostname = %APPEND% interface*.music.163.com, ipv4.music.163.com
