@@ -15,4 +15,18 @@
 
 增强应用模块中有两个Box.js 和 Script Hub 模块
 
-* Script Hub 模块可以用于各个代理软件的规则， Box.js 模块可以使用支持Node.js环境的脚本 *
+Script Hub 模块可以用于各个代理软件的规则， Box.js 模块可以使用支持Node.js环境的脚本
+
+## 其他模块插件分享
+
+qingrex大佬主页：
+https://surge.qingr.moe
+
+墨鱼大佬 git 仓库：
+https://github.com/ddgksf2013/ddgksf2013
+
+可莉大佬 git 仓库：
+https://github.com/luestr/ProxyResource/blob/main/README.md
+
+sooyaaabo 大佬 git 仓库：
+https://github.com/sooyaaabo/Loon/tree/main/Plugin
